@@ -1,40 +1,31 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Bookstore</title>
+    <title>Booklist</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
 </head>
-<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"
-	th:href="@{css/bootstrap.min.css}" />	
-
 <body>
-<div class="container">
-<div class="well">
-	<h1>Bookstore</h1>
-	<div class="well"><span th:inline="text">Welcome:<strong> [[${#httpServletRequest.remoteUser}]]!</strong></span></div>
-
-	<table class="table table-striped">
+	<h1>Books</h1>
+    <table class="table table-striped">
 		<tr>
-			<th>Author</th>
-			<th>Title</th>
-			<th>ISBN</th>
-			<th colspan='2'>Year</th>
-		</tr>
-		<tr th:each="book : ${books}">
-			<td th:text="${book.author}">Author</td>
-			<td th:text="${book.title}">Title</td>
-			<td th:text="${book.isbn}">ISBN</td>
-			<td th:text="${book.year}">Year</td>
-			<td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${book.id})}"><button class="btn btn-danger">Delete</button></a></td>
-			<td><a th:href="@{/edit/{id}(id=${book.id})}"><button class="btn btn-warning">Edit</button></a></td>  
-
-		</tr>
-	</table>
-	<a href="/add"><button class="btn btn-success">Add book</button></a>  
-</div>
-<hr />
-
-</div>	
+		    <th>Author</th>
+		    <th>Title</th>
+		    <th>ISBN</th>
+		    <th>Year</th>
+		    <th>Category</th>
+		    <th></th>
+		</tr>  
+    	<tr th:each = "book : ${books}">
+    		<td th:text="${book.author}"></td> 
+    		<td th:text="${book.title}"></td>
+    		<td th:text="${book.isbn}"></td>  		
+    		<td th:text="${book.year}"></td> 
+    		<td th:text="${book.category.name}"></td> 
+    		<td><a th:href="@{/delete/{id}(id=${book.id})}"  class="btn btn-danger">Delete</a></td>    		
+    		<td><a th:href="@{/modify/{id}(id=${book.id})}"  class="btn btn-warning">Modify</a></td>    
+    	</tr>
+     </table> 	
+     <a href="/add" class="btn btn-success">Add Book</a>
 </body>
 </html>

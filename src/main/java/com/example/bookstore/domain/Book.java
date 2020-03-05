@@ -1,35 +1,40 @@
 package com.example.bookstore.domain;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 @Entity
 public class Book {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	public long id;
-	
+	private long id;
 	private String title;
 	private String author;
-	private String isbn;
-
-	private double price;
 	private int year;
+	private String isbn;
+	private double price;
+	
+    @ManyToOne
+    @JoinColumn(name = "categoryid")
+    private Category category;
 	
 	public Book() {
 		super();
 	}
 
-	public Book(long id, String title, String author, String isbn, double price, int year) {
+	public Book(String title, String author, int year, String isbn, double price, Category category) {
 		super();
-		this.id = id;
 		this.title = title;
 		this.author = author;
+		this.year = year;
 		this.isbn = isbn;
 		this.price = price;
-		this.year = year;
+		this.category = category;
 	}
 
 	public long getId() {
@@ -56,6 +61,14 @@ public class Book {
 		this.author = author;
 	}
 
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
 	public String getIsbn() {
 		return isbn;
 	}
@@ -72,22 +85,20 @@ public class Book {
 		this.price = price;
 	}
 
-	public int getYear() {
-		return year;
+
+	public Category getCategory() {
+		return category;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	@Override
 	public String toString() {
-		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", price=" + price
-				+ ", year=" + year + "]";
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", year=" + year + ", isbn=" + isbn
+				+ ", price=" + price + "]";
 	}
-
 	
-
-
-
+	
 }

@@ -9,28 +9,35 @@ import org.springframework.context.annotation.Bean;
 
 import com.example.bookstore.domain.Book;
 import com.example.bookstore.domain.BookRepository;
+import com.example.bookstore.domain.Category;
+import com.example.bookstore.domain.CategoryRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
 	private static final Logger log = LoggerFactory.getLogger(BookstoreApplication.class);
-
 	public static void main(String[] args) {
 		SpringApplication.run(BookstoreApplication.class, args);
 	}
 
 	@Bean
-	public CommandLineRunner demo(BookRepository repository) {
-	return (args) -> {
-		log.info("save a couple of books");
-		repository.save(new Book(0, "Marko Maessen", "Kevätkaamos", "987-123-456-789-0", 10.00, 1997));
-		repository.save(new Book(0, "Marko Maessen", "Leipätehdas", "789-321-654-987-0", 15.00,  2020));	
-		
-		log.info("fetch all students");
-		for (Book book : repository.findAll()) {
-			log.info(book.toString());
+	public CommandLineRunner studentDemo(BookRepository repository, CategoryRepository crepository) {
+		return (args) -> {
+			
+			log.info("save a couple of categories");
+			crepository.save(new Category("Fantasia"));
+			crepository.save(new Category("Dokkari"));
+			crepository.save(new Category("Draama"));
+
+			log.info("save a couple of books");
+			repository.save(new Book("Ensimmäinen kirja", "Marko", 1923, "123-234-2831", 100.00, crepository.findByName("Dokkari").get(0)));
+			repository.save(new Book("Toinen kirja", "Daniel", 2020, "123-234-0952", 25.00, crepository.findByName("Draama").get(0)));	
+			
+			log.info("fetch all books");
+			for (Book book : repository.findAll()) {
+				log.info(book.toString());
+			}
+
+		};
 	}
 	
-	};
-}
-
 }
