@@ -67,4 +67,10 @@ public class BookController {
     	System.out.println("GGGGGGG");
         return "modifybook";
     }    
+    
+    @RequestMapping(value="/login")
+	public String login() {
+		return "login";
+	}
+    
 }
